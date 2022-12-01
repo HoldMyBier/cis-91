@@ -1,6 +1,6 @@
 
 variable "credentials_file" { 
-  default = "/home/eli6679/cis-91-362518-3075db6e3e49.json" 
+  default = "/home/eli6679/cis-91-362518-534fecc98b7f.json" 
 }
 
 variable "project" {
@@ -50,13 +50,7 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
-  attached_disk {
-    source = google_compute_disk.lab09.self_link
-    device_name = "lab09"
-  }
 }
-
-  
 
 resource "google_compute_firewall" "default-firewall" {
   name = "default-firewall"
@@ -66,15 +60,6 @@ resource "google_compute_firewall" "default-firewall" {
     ports = ["22", "80", "3000"]
   }
   source_ranges = ["0.0.0.0/0"]
-}
-
-resource "google_compute_disk" "lab09" {
-  name  = "lab09"
-  type  = "pd-ssd"
-  labels = {
-    environment = "dev"
-  }
-  size = "16"
 }
 
 output "external-ip" {

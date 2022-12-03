@@ -53,11 +53,11 @@ resource "google_compute_instance" "vm_instance" {
 }
 
 resource "google_compute_firewall" "default-firewall" {
-  name = "default-firewall"
+  name = "dokuwiki-firewall"
   network = google_compute_network.vpc_network.name
   allow {
     protocol = "tcp"
-    ports = ["22", "80", "3000"]
+    ports = ["22", "80"]
   }
   source_ranges = ["0.0.0.0/0"]
 }

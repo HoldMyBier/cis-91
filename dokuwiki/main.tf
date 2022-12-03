@@ -32,7 +32,7 @@ provider "google" {
 }
 
 resource "google_compute_network" "vpc_network" {
-  name = "cis91-network"
+  name = "dokuwiki-network"
 }
 
 resource "google_compute_instance" "vm_instance" {

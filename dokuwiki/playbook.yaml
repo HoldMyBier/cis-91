@@ -15,3 +15,7 @@
           - apache2
           - php-xml
           
+    - name: Extract dokuwiki-stable.tgz into /var/www/html
+      ansible.builtin.unarchive:
+        src: dokuwiki-stable.tgz
+        dest: /var/www/html

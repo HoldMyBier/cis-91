@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  name: Add cis-92 packages
+  name: Add cis-91 packages
   become: yes
   tasks:
     - name: Install packages 
@@ -8,14 +8,5 @@
         update_cache: yes
         cache_valid_time: 3600
         name:
-          - python3-pip 
-          - python3-venv
           - nginx
-          - php
-          - apache2
-          - php-xml
-          
-    - name: Extract dokuwiki-stable.tgz into /var/www/html
-      ansible.builtin.unarchive:
-        src: dokuwiki-stable.tgz
-        dest: /var/www/html
+          - apache

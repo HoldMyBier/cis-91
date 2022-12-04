@@ -36,7 +36,7 @@ resource "google_compute_network" "vpc_network" {
 }
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "cis91"
+  name         = "dokuwiki"
   machine_type = "e2-micro"
 
   boot_disk {

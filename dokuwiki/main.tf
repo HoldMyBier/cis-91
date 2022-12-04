@@ -59,6 +59,7 @@ resource "google_compute_instance" "vm_instance" {
     email  = google_service_account.dokuwiki-service-account.email
     scopes = ["cloud-platform"]
   }
+
 }
 
 resource "google_service_account" "dokuwiki-service-account" {
@@ -67,8 +68,8 @@ resource "google_service_account" "dokuwiki-service-account" {
   description = "Service account for dokuwiki"
 }
 
-resource "google_project_iam_member" "admin" {
-  role = "roles/iam.serviceAccountUser"
+resource "google_project_iam_member" "project_member" {
+  role = "roles/compute.viewer"
   member = "serviceAccount:${google_service_account.dokuwiki-service-account.email}"
 }
 

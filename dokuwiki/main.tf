@@ -64,7 +64,7 @@ resource "google_service_account" "dokuwiki-service-account" {
 
 resource "google_project_iam_member" "project_member" {
   role = "roles/compute.viewer"
-  member = "serviceAccount:${google_service_account.dokuwiki-service-account}"
+  member = "serviceAccount:${google_service_account.dokuwiki-service-account.email}"
 }
 
 

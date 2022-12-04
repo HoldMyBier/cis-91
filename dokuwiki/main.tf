@@ -56,6 +56,19 @@ resource "google_compute_instance" "vm_instance" {
   }
 }
 
+resource "google_service_account" "lab08-service-account" {
+  account_id   = "lab08-service-account"
+  display_name = "lab08-service-account"
+  description = "Service account for lab 08"
+}
+
+resource "google_project_iam_member" "project_member" {
+  role = "roles/compute.viewer"
+  member = "serviceAccount:${google_service_account.lab08-service-account.email}"
+}
+
+
+
 resource "google_compute_firewall" "default-firewall" {
   name = "dokuwiki-firewall"
   network = google_compute_network.vpc_network.name

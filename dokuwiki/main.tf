@@ -67,8 +67,8 @@ resource "google_service_account" "dokuwiki-service-account" {
   description = "Service account for dokuwiki"
 }
 
-resource "google_project_iam_member" "project_member" {
-  role = "roles/compute.viewer"
+resource "google_project_iam_member" "admin" {
+  role = "roles/iam.serviceAccountUser"
   member = "serviceAccount:${google_service_account.dokuwiki-service-account.email}"
 }
 

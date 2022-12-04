@@ -50,6 +50,10 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
+  attached_disk {
+    source = google_compute_disk.data.self_link
+    device_name = "data"
+  }
 }
 
 resource "google_compute_firewall" "default-firewall" {
@@ -64,4 +68,13 @@ resource "google_compute_firewall" "default-firewall" {
 
 output "external-ip" {
   value = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
+}
+
+resource "google_compute_disk" "data" {
+  name  = "data"
+  type  = "pd-ssd"
+  labels = {
+    environment = "dev"
+  }
+  size = "16"
 }

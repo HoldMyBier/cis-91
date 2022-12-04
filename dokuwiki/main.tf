@@ -54,6 +54,11 @@ resource "google_compute_instance" "vm_instance" {
     source = google_compute_disk.data.self_link
     device_name = "data"
   }
+
+  service_account {
+    email  = google_service_account.dokuwiki-service-account.email
+    scopes = ["cloud-platform"]
+  }
 }
 
 resource "google_service_account" "dokuwiki-service-account" {

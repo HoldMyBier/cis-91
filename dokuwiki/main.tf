@@ -38,6 +38,8 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_instance" "vm_instance" {
   name         = "dokuwiki"
   machine_type = "e2-micro"
+  allow_stopping_for_update = true
+  
 
   boot_disk {
     initialize_params {

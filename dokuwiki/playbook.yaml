@@ -7,12 +7,12 @@
     - name: Create a ext4 filesystem for dokuwiki
       community.general.filesystem:
         fstype: ext2
-        dev: /dev/disk/by-id/google-dokuwiki
+        dev: /dev/disk/by-id/google-data
 
     - name: Mount extra disk
       ansible.posix.mount:
         path: /var/www
-        src: /dev/disk/by-id/google-dokuwiki
+        src: /dev/disk/by-id/google-data
         fstype: ext4
         state: present
 

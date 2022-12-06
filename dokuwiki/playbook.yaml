@@ -14,14 +14,15 @@
           - php-xml
 
 
-    - name: Create a ext4 filesystem for dokuwiki
-      community.general.filesystem:
-        fstype: ext2
-        dev: /dev/disk/by-id/google-dokuwiki
-
     - name: Mount extra disk
       ansible.posix.mount:
         path: /var/www
         src: /dev/disk/by-id/google-dokuwiki
         fstype: ext4
         state: present
+
+
+    - name: Create a ext4 filesystem for dokuwiki
+      community.general.filesystem:
+        fstype: ext2
+        dev: /dev/disk/by-id/google-dokuwiki

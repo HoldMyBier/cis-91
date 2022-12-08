@@ -134,3 +134,7 @@ resource "google_compute_global_forwarding_rule" "default" {
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.address
 }
+
+output "lb-ip" {
+  value = google_compute_global_address.default.address
+}

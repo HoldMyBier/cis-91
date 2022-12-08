@@ -70,3 +70,15 @@ resource "google_compute_firewall" "default-firewall" {
 output "external-ip" {
   value = google_compute_instance.webservers[*].network_interface[0].access_config[0].nat_ip
 }
+
+
+resource "google_compute_health_check" "webservers" {
+  name = "webserver-health-check"
+
+  timeout_sec        = 1
+  check_interval_sec = 1
+
+  http_health_check {
+    port = 80
+  }
+}

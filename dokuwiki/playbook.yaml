@@ -25,3 +25,11 @@
           - apache2
           - php 
           - php-xml
+
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+    src: /home/eli6679/cis-91/dokuwiki/backup.sh
+    dest: /etc/cron.hourly
+    owner: root
+    group: foo
+    mode: '0644'

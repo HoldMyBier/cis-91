@@ -28,8 +28,8 @@
 
     - name: Copy file with owner and permissions
       ansible.builtin.copy:
-    src: /home/eli6679/cis-91/dokuwiki/backup.sh
-    dest: /etc/cron.hourly
-    owner: root
-    group: foo
-    mode: '0644'
+        src: /home/eli6679/cis-91/dokuwiki/backup
+        dest: /etc/cron.hourly
+        owner: root
+        group: root
+        mode: '0644'

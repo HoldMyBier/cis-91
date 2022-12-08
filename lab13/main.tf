@@ -82,3 +82,55 @@ resource "google_compute_health_check" "webservers" {
     port = 80
   }
 }
+
+
+resource "google_compute_instance_group" "webservers" {
+  name        = "cis91-webservers"
+  description = "Webserver instance group"
+
+  instances = google_compute_instance.webservers[*].self_link
+
+  named_port {
+    name = "http"
+    port = "80"
+  }
+}
+
+
+resource "google_compute_backend_service" "webservice" {
+  name      = "web-service"
+  port_name = "http"
+  protocol  = "HTTP"
+
+  backend {
+    group = google_compute_instance_group.webservers.id
+  }
+
+  health_checks = [
+    google_compute_health_check.webservers.id
+  ]
+}
+
+resource "google_compute_url_map" "default" {
+  name            = "my-site"
+  default_service = google_compute_backend_service.webservice.id
+}
+
+resource "google_compute_target_http_proxy" "default" {
+  name     = "web-proxy"
+  url_map  = google_compute_url_map.default.id
+}
+
+resource "google_compute_global_address" "default" {
+  name = "external-address"
+}
+
+
+resource "google_compute_global_forwarding_rule" "default" {
+  name                  = "forward-application"
+  ip_protocol           = "TCP"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "80"
+  target                = google_compute_target_http_proxy.default.id
+  ip_address            = google_compute_global_address.default.address
+}

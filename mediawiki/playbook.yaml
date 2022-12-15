@@ -8,6 +8,18 @@
         name:
           - apache2
           - php
+    - name: Create a ext4 filesystem for mediawiki
+      community.general.filesystem:
+        fstype: ext2
+        dev: /dev/disk/by-id/google-mediawiki
+
+    - name: Mount extra disk
+      ansible.posix.mount:
+        path: /mnt
+        src: /dev/disk/by-id/google-mediawiki
+        fstype: ext4
+        state: present
+
     - name: Update index.html so we can see the difference between hosts 
       blockinfile:
         path: /var/www/html/index.html

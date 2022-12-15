@@ -51,9 +51,29 @@ resource "google_compute_instance" "webservers" {
     access_config {
     }
   }
-
   labels = {
     role: "web"
+  }
+}
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "db"
+  machine_type = "e2-micro"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+    }
+  }
+  attached_disk {
+    source = google_compute_disk.data.self_link
+    device_name = "data"
   }
 }
 
@@ -65,6 +85,15 @@ resource "google_compute_firewall" "default-firewall" {
     ports = ["22", "80", "3000"]
   }
   source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_disk" "data" {
+  name  = "data"
+  type  = "pd-ssd"
+  labels = {
+    environment = "dev"
+  }
+  size = "16"
 }
 
 output "external-ip" {

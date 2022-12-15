@@ -16,7 +16,7 @@
 
     - name: Mount extra disk
       ansible.posix.mount:
-        path: /mnt
+        path: /var/lib/postgresql
         src: /dev/disk/by-id/google-mediawiki
         fstype: ext4
         state: present

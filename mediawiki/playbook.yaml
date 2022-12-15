@@ -8,6 +8,7 @@
         name:
           - apache2
           - php
+  
     - name: Create a ext4 filesystem for mediawiki
       community.general.filesystem:
         fstype: ext2

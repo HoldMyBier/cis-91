@@ -8,16 +8,16 @@
         name:
           - apache2
           - php
-  
-    - name: Create a ext4 filesystem for mediawiki
+
+    - name: Create a ext4 filesystem for data
       community.general.filesystem:
-        fstype: ext2
-        dev: /dev/disk/by-id/google-mediawiki
+        fstype: ext4
+        dev: /dev/disk/by-id/google-data
 
     - name: Mount extra disk
       ansible.posix.mount:
         path: /var/lib/postgresql
-        src: /dev/disk/by-id/google-mediawiki
+        src: /dev/disk/by-id/google-data
         fstype: ext4
         state: present
 
@@ -30,3 +30,8 @@
         block: | 
           <h1>This is the server {{ inventory_hostname }}</h1>
           
+    - name: Create the health check file. 
+      copy:
+        dest: /var/www/html/health.html
+        content: |
+          I'm alive

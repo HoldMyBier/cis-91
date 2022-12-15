@@ -51,14 +51,16 @@ resource "google_compute_instance" "webservers" {
     access_config {
     }
   }
-  labels = {
-    role: "web"
+  tags         = ["web"]
+  labels       = {
+    name: "web${count.index}"
   }
 }
 
 resource "google_compute_instance" "vm_instance" {
   name         = "db"
   machine_type = "e2-micro"
+  tags         = ["db"]
 
   boot_disk {
     initialize_params {
@@ -75,6 +77,7 @@ resource "google_compute_instance" "vm_instance" {
     source = google_compute_disk.data.self_link
     device_name = "data"
   }
+  
 }
 
 resource "google_compute_firewall" "default-firewall" {
@@ -83,6 +86,7 @@ resource "google_compute_firewall" "default-firewall" {
   allow {
     protocol = "tcp"
     ports = ["22", "80", "3000"]
+    target_tags = ["db"]
   }
   source_ranges = ["0.0.0.0/0"]
 }

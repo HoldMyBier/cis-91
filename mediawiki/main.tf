@@ -100,7 +100,7 @@ resource "google_compute_firewall" "rules" {
 
   allow {
     protocol  = "tcp"
-    ports     = ["4321"]
+    ports     = ["5432"]
   }
 
   source_tags = ["web"]

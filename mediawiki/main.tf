@@ -39,6 +39,10 @@ resource "google_compute_instance" "webservers" {
   count        = 3
   name         = "web${count.index}"
   machine_type = "e2-micro"
+  tags         = ["web"]
+  labels       = {
+    name: "web${count.index}"
+  }
 
   boot_disk {
     initialize_params {
@@ -51,10 +55,7 @@ resource "google_compute_instance" "webservers" {
     access_config {
     }
   }
-  tags         = ["web"]
-  labels       = {
-    name: "web${count.index}"
-  }
+
 }
 
 resource "google_compute_instance" "vm_instance" {
@@ -87,7 +88,50 @@ resource "google_compute_firewall" "default-firewall" {
     protocol = "tcp"
     ports = ["22", "80"]
   }
+  
   source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "rules" {
+  project     = "cis-91-362518"
+  name        = "db-firewall-rule"
+  network     = "cis91-network"
+  description = "Creates firewall rule targeting tagged instances"
+
+  allow {
+    protocol  = "tcp"
+    ports     = ["4321"]
+  }
+
+  source_tags = ["web"]
+  target_tags = ["db"]
+}
+
+resource "google_compute_firewall" "rule22" {
+  project     = "cis-91-362518"
+  name        = "db22-firewall-rule"
+  network     = "cis91-network"
+  description = "Allows port 22 all hosts"
+
+  allow {
+    protocol  = "tcp"
+    ports     = ["22"]
+  }
+  target_tags = []
+}
+
+resource "google_compute_firewall" "rule80" {
+  project     = "cis-91-362518"
+  name        = "db80-firewall-rule"
+  network     = "cis91-network"
+  description = "Allows port 80 to web"
+
+  allow {
+    protocol  = "tcp"
+    ports     = ["80"]
+  }
+  target_tags = ["web"]
+
 }
 
 resource "google_compute_disk" "data" {

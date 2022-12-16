@@ -87,9 +87,6 @@ resource "google_compute_firewall" "default-firewall" {
     protocol = "tcp"
     ports = ["22", "80"]
   }
-  source_tags = ["db"]
-  target_tags = ["web"]
-
   source_ranges = ["0.0.0.0/0"]
 }
 
